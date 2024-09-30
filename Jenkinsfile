@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git              
-                       git url: 'https://github.com/Thriguna333/my-python.git' 
+                // Checkout code from Git
+                git url: 'https://github.com/Thriguna333/my-python.git' 
             }
         }
         stage('Setup Environment') {
@@ -35,6 +35,6 @@ pipeline {
         always {
             echo "Cleaning up workspace..."
             cleanWs()
-        }
-    }
+        }
+    }
 }
