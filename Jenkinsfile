@@ -1,69 +1,40 @@
-pipeline{
-    agent any 
-
-    environment {
-        PYTHON_ENV = 'venv'     // Virtual Environment for Python
-        
-    }
+pipeline {
+    agent any
     stages {
-        // Stage 1: Clone the repository
-        stage('Checkout'){
-            steps{
-                echo 'Cloneing repository...'
-                git branch: 'main', url: 'https://github.com/MythriMuthyala/my-python-app.gi'
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git              
+                       git url: 'https://github.com/Thriguna333/my-python.git' 
             }
         }
-
-        // Stage 2: Set up the Python enviroment
-
         stage('Setup Environment') {
             steps {
-                echo 'Setting up python virtula enviroment...'
-                sh '''
-                python3 -m venv ${PYTHON_ENV}      # create a virtual environment
-                source ${PYTHON_ENV}/bin/activate   # Activate the virtual environment
-                pip install -r requirements.txt   # Install dependencies
-                '''
+                echo "Creating virtual environment..."
+                bat 'C:\\Users\\Windows\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m venv venv'  // Use double backslashes
+                echo "Activating virtual environment..."
+                bat 'call venv\\Scripts\\activate.bat'  // This line is fine as is
+                echo "Installing dependencies..."
+                bat 'C:\\Users\\Windows\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\pip.exe install -r requirements.txt'  // Use double backslashes
             }
         }
-
-        // Stage 3: Run the tests
         stage('Run Tests') {
             steps {
-                echo 'Running unit tests...'
-                sh  '''
-                source ${PYTHON_ENV}/vin/activate
-                pytest tests/
-                '''
+                echo "Running tests..."
+                // Add your testing commands here, for example:
+                // bat 'pytest'
             }
-            
         }
-
-        // Stage 4: Deploy (this could be to a local http server, for example)
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                // In this example, we'll simulate deployment by copying the code to a server directory
-                sh '''
-                cp -r * /path/to/local/http/server/root/  # Copy the app to the deployment directory
-                '''
+                echo "Deploying application..."
+                // Add your deployment commands here
             }
         }
-
-
-        
     }
-}
-
-post {
-    always {
-        echo 'Cleaning up workspace...'
-        cleanWs()     // Clean the workspace after the pipeline execution
-    }
-    success {
-        echo 'Pipeline completed successfully!'
-    }
-    failure {
-        echo 'Pipeline failed!'
-    }
+    post {
+        always {
+            echo "Cleaning up workspace..."
+            cleanWs()
+        }
+    }
 }
