@@ -10,7 +10,8 @@ pipeline{
         stage('Checkout'){
             steps{
                 echo 'Cloneing repository...'
-                git branch: 'main', url: https://github.com/Thriguna333/my-python.git            }
+                git branch: 'main', url: 'https://github.com/MythriMuthyala/my-python-app.gi'
+            }
         }
 
         // Stage 2: Set up the Python enviroment
